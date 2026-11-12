@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crypto Lab</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><h1>Crypto Lab</h1><span>SHA-256, AES-CBC and three attacks, all written from scratch in Rust</span></header>
+<nav id="tabs">
+  <button data-t="hash" class="on">Hashing</button>
+  <button data-t="ecb">ECB vs CBC</button>
+  <button data-t="po">Padding oracle</button>
+  <button data-t="le">Length extension</button>
+  <button data-t="rsa">Weak RSA</button>
+</nav>
+<main>
+<section id="hash"><p class="lead">Change one bit of the input and about half of the 256 output bits flip (avalanche). HMAC adds a key without the weaknesses of a naive <code>sha256(key||msg)</code>.</p>
+  <label>Text <input id="h-text" value="hello world"></label><label>HMAC key <input id="h-key" value="key"></label>
+  <div class="out" id="h-out"></div></section>
+<section id="ecb" hidden><p class="lead">The same plaintext blocks, encrypted two ways. ECB maps equal blocks to equal ciphertext, so structure leaks. CBC does not.</p>
+  <label>Text <input id="e-text" value="ATTACK AT DAWN!!ATTACK AT DAWN!!ATTACK AT DAWN!!SECRET MESSAGE 01"></label>
+  <h3>ECB</h3><div class="blocks" id="e-ecb"></div><h3>CBC</h3><div class="blocks" id="e-cbc"></div></section>
+<section id="po" hidden><p class="lead">A server that only says "padding valid or not" lets an attacker decrypt any CBC message without the key. The attack runs here for real, one oracle query at a time.</p>
+  <label>Secret message <input id="p-msg" value="transfer 1000 EUR to account 4242"></label><button id="p-run">Run attack</button>
+  <div class="out" id="p-out"></div></section>
+<section id="le" hidden><p class="lead">A MAC built as <code>sha256(secret||msg)</code> can be extended by someone who never sees the secret. The forged message is accepted by the server. HMAC resists.</p>
+  <label>Signed message <input id="l-msg" value="user=alice&amp;role=reader"></label><label>Append <input id="l-app" value="&amp;role=admin"></label><button id="l-run">Forge</button>
+  <div class="out" id="l-out"></div></section>
+<section id="rsa" hidden><p class="lead">When the two primes are close together, Fermat factoring recovers them in a handful of iterations. Leave empty to generate a vulnerable key, or paste an n below 2^63.</p>
+  <label>Modulus n <input id="r-n" placeholder="empty = generate a weak key"></label><button id="r-run">Factor</button>
+  <div class="out" id="r-out"></div></section>
+</main>
+<footer>Educational lab. Not constant-time, not for production. Binds to loopback only.</footer>
+<script src="/app.js"></script></body></html>
