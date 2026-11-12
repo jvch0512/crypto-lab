@@ -1,0 +1,11 @@
+[package]
+name = "crypto-lab"
+version = "0.1.0"
+edition = "2021"
+description = "Cryptography lab in Rust: from-scratch SHA-256, HMAC, AES-128-CBC and three working attacks (padding oracle, length extension, Fermat factoring) with a web UI. Zero dependencies."
+license = "MIT"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
